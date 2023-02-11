@@ -1,17 +1,17 @@
-import { State } from "./state";
-import { Patient } from "../types";
+import { State } from './state';
+import { Patient } from '../types';
 
 export type Action =
   | {
-      type: "SET_PATIENT_LIST";
+      type: 'SET_PATIENT_LIST';
       payload: Patient[];
     }
   | {
-      type: "ADD_PATIENT";
+      type: 'ADD_PATIENT';
       payload: Patient;
     }
   | {
-      type: "UPDATE_PATIENT";
+      type: 'UPDATE_PATIENT';
       payload: Patient;
     };
 
@@ -47,4 +47,16 @@ export const reducer = (state: State, action: Action): State => {
     default:
       return state;
   }
+};
+
+export const setPatientList = (patientListFromApi: Array<Patient>): Action => {
+  return { type: 'SET_PATIENT_LIST', payload: patientListFromApi };
+};
+
+export const updatePatient = (patientDataFromApi: Patient): Action => {
+  return { type: 'UPDATE_PATIENT', payload: patientDataFromApi };
+};
+
+export const addPatient = (newPatient: Patient): Action => {
+  return { type: 'ADD_PATIENT', payload: newPatient };
 };

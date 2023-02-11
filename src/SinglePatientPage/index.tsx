@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiBaseUrl } from '../constants';
-import { useStateValue } from '../state';
+import { updatePatient, useStateValue } from '../state';
 import { Patient } from '../types';
 
 const SinglePatientPage = () => {
@@ -20,7 +20,7 @@ const SinglePatientPage = () => {
         const { data: patientDataFromApi } = await axios.get<Patient>(
           `${apiBaseUrl}/patients/${id}`
         );
-        dispatch({ type: 'ADD_PATIENT', payload: patientDataFromApi });
+        dispatch(updatePatient(patientDataFromApi));
       } catch (e) {
         console.error(e);
       }
