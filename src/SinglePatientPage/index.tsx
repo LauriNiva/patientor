@@ -44,6 +44,23 @@ const SinglePatientPage = () => {
       <Typography variant="body1">({patient.gender})</Typography>
       <Typography variant="body1">SSN: {patient.ssn}</Typography>
       <Typography variant="body1">Occupation: {patient.occupation} </Typography>
+      <Box mt={4}>
+        <Typography variant="h4">Entries</Typography>
+        {patient.entries?.map((entry) => (
+          <Box mt={2} key={entry.id}>
+            <Typography variant="body1">
+              {entry.date} <i>{entry.description}</i>
+            </Typography>
+            {entry.diagnosisCodes && (
+              <ul>
+                {entry.diagnosisCodes.map((code) => (
+                  <li key={entry.id + code}>{code}</li>
+                ))}
+              </ul>
+            )}
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 };
