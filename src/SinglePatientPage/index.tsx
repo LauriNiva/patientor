@@ -2,6 +2,7 @@ import { Box, Typography } from '@material-ui/core';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import SingleEntry from '../components/SingleEntry';
 import { apiBaseUrl } from '../constants';
 import { updatePatient, useStateValue } from '../state';
 import { Patient } from '../types';
@@ -10,7 +11,7 @@ const SinglePatientPage = () => {
   const { id } = useParams<{ id: string }>();
   if (!id) return <></>;
 
-  const [{ patients, diagnoses }, dispatch] = useStateValue();
+  const [{ patients }, dispatch] = useStateValue();
 
   const patient = patients[id];
 
@@ -45,22 +46,10 @@ const SinglePatientPage = () => {
       <Typography variant="body1">SSN: {patient.ssn}</Typography>
       <Typography variant="body1">Occupation: {patient.occupation} </Typography>
       <Box mt={4}>
-        <Typography variant="h4">Entries</Typography>
+        <Typography gutterBottom={true} variant="h4">Entries</Typography>
+        <br />
         {patient.entries?.map((entry) => (
-          <Box mt={2} key={entry.id}>
-            <Typography variant="body1">
-              {entry.date} <i>{entry.description}</i>
-            </Typography>
-            {entry.diagnosisCodes && (
-              <ul>
-                {entry.diagnosisCodes.map((code) => (
-                  <li key={entry.id + code}>
-                    {code} {diagnoses[code]?.name}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Box>
+          <SingleEntry key={entry.id} entry={entry} />
         ))}
       </Box>
     </Box>
