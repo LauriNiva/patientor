@@ -10,7 +10,7 @@ const SinglePatientPage = () => {
   const { id } = useParams<{ id: string }>();
   if (!id) return <></>;
 
-  const [{ patients }, dispatch] = useStateValue();
+  const [{ patients, diagnoses }, dispatch] = useStateValue();
 
   const patient = patients[id];
 
@@ -54,7 +54,9 @@ const SinglePatientPage = () => {
             {entry.diagnosisCodes && (
               <ul>
                 {entry.diagnosisCodes.map((code) => (
-                  <li key={entry.id + code}>{code}</li>
+                  <li key={entry.id + code}>
+                    {code} {diagnoses[code]?.name}
+                  </li>
                 ))}
               </ul>
             )}
