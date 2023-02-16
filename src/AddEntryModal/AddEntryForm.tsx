@@ -17,6 +17,16 @@ interface Props {
 export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
   const [{ diagnoses }] = useStateValue();
 
+  const currentDateForDatePicker = new Date()
+    .toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+    .split('/')
+    .reverse()
+    .join('-');
+
   type SubmitValues = {
     type: 'Hospital';
     description: string;
@@ -43,10 +53,11 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
       initialValues={{
         type: 'Hospital',
         description: '',
-        date: '',
+        //date: "2017-05-24",
+        date: currentDateForDatePicker,
         specialist: '',
         diagnosisCodes: [],
-        dischargeDate: '',
+        dischargeDate: currentDateForDatePicker,
         dischargeCriteria: '',
       }}
       onSubmit={handleSubmit}
@@ -54,13 +65,24 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         const requiredError = 'Field is required';
         const errors: { [field: string]: string } = {};
         if (!values.description) {
-          errors.name = requiredError;
+          errors.description = requiredError;
         }
         if (!values.date) {
-          errors.ssn = requiredError;
+          errors.date = requiredError;
+        }
+        if (values.date) {
+          if (!Date.parse(values.date)) {
+            errors.date = 'Not a date';
+          }
         }
         if (!values.specialist) {
-          errors.dateOfBirth = requiredError;
+          errors.specialist = requiredError;
+        }
+        if (!values.dischargeDate) {
+          errors.dischargeDate = requiredError;
+        }
+        if (!values.dischargeCriteria) {
+          errors.dischargeCriteria = requiredError;
         }
         return errors;
       }}
@@ -74,12 +96,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
               name="type"
               component={TextField}
             />
-            <Field
-              label="Date"
-              placeholder="YYYY-MM-DD"
-              name="date"
-              component={TextField}
-            />
+            <Field label="Date" name="date" type="date" component={TextField} />
             <Field
               label="Description"
               placeholder="Description"
@@ -96,6 +113,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
               label="Discharge Date"
               placeholder="Discharge Date"
               name="dischargeDate"
+              type="date"
               component={TextField}
             />
             <Field

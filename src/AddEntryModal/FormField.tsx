@@ -48,14 +48,16 @@ export const SelectField = ({ name, label, options }: SelectFieldProps) => (
 interface TextProps extends FieldProps {
   label: string;
   placeholder: string;
+  type?: string
 }
 
-export const TextField = ({ field, label, placeholder }: TextProps) => (
+export const TextField = ({ field, label, placeholder, type }: TextProps) => (
   <div style={{ marginBottom: "1em" }}>
     <TextFieldMUI
       fullWidth
       label={label}
       placeholder={placeholder}
+      type={type}
       {...field}
     />
     <Typography variant="subtitle2" style={{ color: "red" }}>
