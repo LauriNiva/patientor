@@ -7,38 +7,51 @@ import {
   TextField as TextFieldMUI,
   Typography,
 } from "@material-ui/core";
-import { Diagnosis, Gender } from "../types";
+import { Diagnosis, Entry } from "../types";
 import { InputLabel } from "@material-ui/core";
 import Input from '@material-ui/core/Input';
 
 // structure of a single option
-export type GenderOption = {
-  value: Gender;
-  label: string;
+export type EntryTypeOption = {
+  value: Entry['type'];
 };
 
 // props for select field component
 type SelectFieldProps = {
   name: string;
   label: string;
-  options: GenderOption[];
+  options: EntryTypeOption[];
+  //value: Entry['type'];
+  // onChange: React.Dispatch<
+  //   React.SetStateAction<Entry['type']>
+  // >;
 };
 
-const FormikSelect = ({ field, ...props }: FieldProps) => <Select {...field} {...props} />;
+const FormikSelect = ({ field, ...props }: FieldProps) => <Select  {...field} {...props} />;
 
-export const SelectField = ({ name, label, options }: SelectFieldProps) => (
+export const SelectField = ({
+  name,
+  label,
+  options,
+  // value,
+  // onChange,
+}: SelectFieldProps) => (
   <>
     <InputLabel>{label}</InputLabel>
     <Field
       fullWidth
-      style={{ marginBottom: "0.5em" }}
+      style={{ marginBottom: '0.5em' }}
       label={label}
       component={FormikSelect}
       name={name}
+      // value={value}
+      // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+      //   onChange(e.target.value as Entry['type'])
+      // }
     >
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>
-          {option.label || option.value}
+          {option.value}
         </MenuItem>
       ))}
     </Field>
@@ -48,19 +61,27 @@ export const SelectField = ({ name, label, options }: SelectFieldProps) => (
 interface TextProps extends FieldProps {
   label: string;
   placeholder: string;
-  type?: string
+  type?: string;
+  disabled?: boolean;
 }
 
-export const TextField = ({ field, label, placeholder, type }: TextProps) => (
-  <div style={{ marginBottom: "1em" }}>
+export const TextField = ({
+  field,
+  label,
+  placeholder,
+  type,
+  disabled,
+}: TextProps) => (
+  <div style={{ marginBottom: '1em' }}>
     <TextFieldMUI
       fullWidth
+      disabled={disabled}
       label={label}
       placeholder={placeholder}
-      type={type}
+      type={type}   
       {...field}
     />
-    <Typography variant="subtitle2" style={{ color: "red" }}>
+    <Typography variant="subtitle2" style={{ color: 'red' }}>
       <ErrorMessage name={field.name} />
     </Typography>
   </div>
